@@ -11,4 +11,6 @@ function diffArray(arr1, arr2) {
   return [...arr1, ...arr2]
     .filter(val => !arr1.some(a => a === val) || !arr2.some(a => a === val))
 }
+
+diffArray([1, 2, 3, 5], [1, 2, 3, 4, 5]);
 ```
