@@ -17,4 +17,6 @@ function sumAll(arr) {
 
   return sum;
 }
+
+sumAll([1, 4]);
 ```
