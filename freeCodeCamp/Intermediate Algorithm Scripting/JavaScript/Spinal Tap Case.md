@@ -9,4 +9,6 @@ function spinalCase(str) {
   return str.replace(/([a-z])([A-Z])/g, '$1 $2')
     .split(/[^a-z]/i).join('-').toLowerCase();
 }
+
+spinalCase("AllThe-small Things");
 ```
