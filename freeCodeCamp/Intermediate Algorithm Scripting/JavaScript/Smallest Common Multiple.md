@@ -26,5 +26,5 @@ function smallestCommons(arr) {
   }
 }
 
-console.log(smallestCommons([5, 1]));
+smallestCommons([23, 18]);
 ```
