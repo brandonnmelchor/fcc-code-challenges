@@ -14,23 +14,19 @@ We'll also pass strings with special symbols, such as 2A3*3a2, 2A3 3a2, and 2_A3
 
 ```js
 function palindrome(str) {
-  let clean = "";
-  let pal = "";
+  let word1 = "";
+  let word2 = "";
   let arr = str.toLowerCase().match(/[a-z0-9]/ig);
 
   for (let i = 0; i < arr.length; i++) {
-    clean += arr[i];
+    word1 += arr[i];
   }
 
   for (let j = arr.length - 1; j >= 0; j--) {
-    pal += arr[j];
+    word2 += arr[j];
   }
 
-  if (pal === clean) {
-    return true
-  }
-
-  return false;
+  return word1 === word2;
 }
 
 palindrome("1 eye for of 1 eye");
