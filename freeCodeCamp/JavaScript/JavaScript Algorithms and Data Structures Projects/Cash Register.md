@@ -41,16 +41,14 @@ function checkCashRegister(price, cash, cid) {
   let value = [["PENNY", .01], ["NICKEL", .05], ["DIME", .1], ["QUARTER", .25],
     ["ONE", 1], ["FIVE", 5], ["TEN", 10], ["TWENTY", 20], ["ONE HUNDRED", 100]];
 
-  for (let i = 0; i < cid.length; i++) {
-    cid[i].push(Math.round(cid[i][1] / value[i][1]));
-  }
+  cid.forEach((arr, index) => arr.push(arr[1] / value[index][1]));
 
   let change = cid.reverse().reduce((arr, money) => {
     if (diff - (money[1] / money[2]) >= 0) {
       let count = 0;
 
       for (let i = 1; i <= money[2] && (diff - (money[1] / money[2])) >= 0; i++) {
-        diff = Math.round((diff - (money[1] / money[2])) * 100) / 100;
+        diff = (diff - (money[1] / money[2])).toFixed(2);
         count++;
       }
 
