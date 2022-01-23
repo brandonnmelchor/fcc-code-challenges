@@ -32,36 +32,27 @@ Otherwise, return {status: "OPEN", change: [...]}, with the change due in coins 
 
 ```js
 function checkCashRegister(price, cash, cid) {
-  let diff = (cash - price);
-  let total = cid.reduce((sum, money) => (sum + money[1]), 0);
+  let changeAmount = cash - price;
+  const regTotal = cid.reduce((sum, inDrawer) => sum + inDrawer[1], 0);
+  const values = [100, 20, 10, 5, 1, .25, .1, .05, .01];
 
-  if (total == diff) return {status: "CLOSED", change: cid};
-  else if (total < diff) return {status: "INSUFFICIENT_FUNDS", change: []};
+  if (regTotal == changeAmount) return {status: "CLOSED", change: cid};
+  else if (regTotal < changeAmount) return {status: "INSUFFICIENT_FUNDS", change: []};
 
-  let value = [["PENNY", .01], ["NICKEL", .05], ["DIME", .1], ["QUARTER", .25],
-    ["ONE", 1], ["FIVE", 5], ["TEN", 10], ["TWENTY", 20], ["ONE HUNDRED", 100]];
+  let result = [];
+  cid.reverse();
 
-  cid.forEach((arr, index) => arr.push(arr[1] / value[index][1]));
+  values.forEach((value, i) => {
+    if (changeAmount >= value) {
+      cid[i][1] = Math.floor(Math.min(cid[i][1], changeAmount) / value) * value;
+      changeAmount = (changeAmount - cid[i][1]).toFixed(2);
 
-  let change = cid.reverse().reduce((arr, money) => {
-    if (diff - (money[1] / money[2]) >= 0) {
-      let count = 0;
-
-      for (let i = 1; i <= money[2] && (diff - (money[1] / money[2])) >= 0; i++) {
-        diff = (diff - (money[1] / money[2])).toFixed(2);
-        count++;
-      }
-
-      money[1] = (money[1] / money[2]) * count;
-      money.pop();
-      arr.push(money);
+      result.push(cid[i]);
     }
+  }) 
 
-    return arr;
-  }, [])
-
-  if (diff > 0) return {status: "INSUFFICIENT_FUNDS", change: []}; 
-  else return {status: "OPEN", change: change};
+  if (changeAmount > 0) return {status: "INSUFFICIENT_FUNDS", change: []};
+  return {status: "OPEN", change: result};
 }
 
 checkCashRegister(3.26, 100, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25],
