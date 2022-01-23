@@ -32,26 +32,22 @@ Otherwise, return {status: "OPEN", change: [...]}, with the change due in coins 
 
 ```js
 function checkCashRegister(price, cash, cid) {
-  let changeAmount = cash - price;
+  let change = cash - price;
   const regTotal = cid.reduce((sum, inDrawer) => sum + inDrawer[1], 0);
   const values = [100, 20, 10, 5, 1, .25, .1, .05, .01];
 
-  if (regTotal == changeAmount) return {status: "CLOSED", change: cid};
-  else if (regTotal < changeAmount) return {status: "INSUFFICIENT_FUNDS", change: []};
+  if (regTotal == change) return {status: "CLOSED", change: cid};
+  else if (regTotal < change) return {status: "INSUFFICIENT_FUNDS", change: []};
 
-  let result = [];
-  cid.reverse();
+  let result = cid.reverse().reduce((arr, inDrawer, i) => {
+    if (change >= values[i]) {
+      inDrawer[1] = Math.floor(Math.min(inDrawer[1], change) / values[i]) * values[i];
+      change = (change - inDrawer[1]).toFixed(2);
 
-  values.forEach((value, i) => {
-    if (changeAmount >= value) {
-      cid[i][1] = Math.floor(Math.min(cid[i][1], changeAmount) / value) * value;
-      changeAmount = (changeAmount - cid[i][1]).toFixed(2);
+      arr.push(inDrawer);
+    } return arr}, []);
 
-      result.push(cid[i]);
-    }
-  }) 
-
-  if (changeAmount > 0) return {status: "INSUFFICIENT_FUNDS", change: []};
+  if (change > 0) return {status: "INSUFFICIENT_FUNDS", change: []};
   return {status: "OPEN", change: result};
 }
 
