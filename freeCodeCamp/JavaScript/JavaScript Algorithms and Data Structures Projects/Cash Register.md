@@ -33,7 +33,7 @@ Otherwise, return {status: "OPEN", change: [...]}, with the change due in coins 
 ```js
 function checkCashRegister(price, cash, cid) {
   let diff = (cash - price);
-  let total = cid.reduce((sum, money) => Math.round((sum + money[1]) * 100) / 100, 0);
+  let total = cid.reduce((sum, money) => (sum + money[1]), 0);
 
   if (total == diff) return {status: "CLOSED", change: cid};
   else if (total < diff) return {status: "INSUFFICIENT_FUNDS", change: []};
