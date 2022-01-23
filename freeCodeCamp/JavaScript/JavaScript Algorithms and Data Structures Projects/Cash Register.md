@@ -42,7 +42,7 @@ function checkCashRegister(price, cash, cid) {
     ["ONE", 1], ["FIVE", 5], ["TEN", 10], ["TWENTY", 20], ["ONE HUNDRED", 100]];
 
   for (let i = 0; i < cid.length; i++) {
-    if (cid[i][0] == value[i][0]) cid[i].push(Math.round(cid[i][1] / value[i][1]))
+    cid[i].push(Math.round(cid[i][1] / value[i][1]));
   }
 
   let change = cid.reverse().reduce((arr, money) => {
