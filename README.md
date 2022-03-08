@@ -1,2 +1,3 @@
-# Code-Challenges
-My own solutions to code challenges on my journey to become a developer.
+# FCC-Code-Challenges
+
+My solutions for freeCodeCamp's JavaScript Algorithms and Data Structures Certification challenges.
